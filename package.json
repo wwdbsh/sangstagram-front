@@ -14,7 +14,9 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "styled-components": "^5.1.1"
+    "react-toastify": "^6.0.8",
+    "styled-components": "^5.1.1",
+    "styled-reset": "^4.2.3"
   },
   "scripts": {
     "start": "react-scripts start",
