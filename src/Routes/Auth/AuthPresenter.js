@@ -66,18 +66,20 @@ export default ({
     password,
     firstName,
     lastName,
+    secret,
     email,
     onSubmit
 }) => (
     <Wrapper>
         <Form>
             <Logo>Sangstagram</Logo>
-            {action === "logIn" ?(
+            {action === "logIn" && (
                 <form onSubmit={onSubmit}>
                     <Input placeholder={"Email"} {...email} type="email" />
                     <Input placeholder={"Password"} {...password} type="password" />
                     <Button text={"Log in"}/>
-                </form>) : (
+                </form>)}
+            {action === "signUp" && (
                 <form onSubmit={onSubmit}>
                     <Input placeholder={"First name"} {...firstName} />
                     <Input placeholder={"Last name"} {...lastName} />
@@ -87,19 +89,27 @@ export default ({
                     <Button text={"Sign up"}/>
                 </form>
             )}
-        </Form>
-        <StateChanger>
-            {action === "logIn" ? (
-                <>
-                    Don't have an account?{" "}
-                    <Link onClick={()=>setAction("signUp")}>Sign up</Link>
-                </>
-            ) : (
-                <>
-                    Have an account?{" "}
-                    <Link onClick={()=>setAction("logIn")}>Log in</Link>
-                </>
+            {action === "confirm" && (
+                <form onSubmit={onSubmit}>
+                    <Input placeholder="Paste your secret" required {...secret} />
+                    <Button text={"Confirm"} />
+                </form>
             )}
-        </StateChanger>
+        </Form>
+        {action !== "confirm" && (
+            <StateChanger>
+                {action === "logIn" ? (
+                    <>
+                        Don't have an account?{" "}
+                        <Link onClick={()=>setAction("signUp")}>Sign up</Link>
+                    </>
+                ) : (
+                    <>
+                        Have an account?{" "}
+                        <Link onClick={()=>setAction("logIn")}>Log in</Link>
+                    </>
+                )}
+            </StateChanger>
+        )}
     </Wrapper>
 );
