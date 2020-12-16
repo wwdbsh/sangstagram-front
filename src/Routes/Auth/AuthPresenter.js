@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Input from "../../Components/Input";
@@ -74,26 +75,42 @@ export default ({
         <Form>
             <Logo>Sangstagram</Logo>
             {action === "logIn" && (
-                <form onSubmit={onSubmit}>
-                    <Input placeholder={"Email"} {...email} type="email" />
-                    <Input placeholder={"Password"} {...password} type="password" />
-                    <Button text={"Log in"}/>
-                </form>)}
+                <>
+                    <Helmet>
+                        <title>Log In | Sangstagram</title>
+                    </Helmet>
+                    <form onSubmit={onSubmit}>
+                        <Input placeholder={"Email"} {...email} type="email" />
+                        <Input placeholder={"Password"} {...password} type="password" />
+                        <Button text={"Log in"}/>
+                    </form>
+                </>
+            )}
             {action === "signUp" && (
-                <form onSubmit={onSubmit}>
-                    <Input placeholder={"First name"} {...firstName} />
-                    <Input placeholder={"Last name"} {...lastName} />
-                    <Input placeholder={"Email"} {...email} type="email" />
-                    <Input placeholder={"Username"} {...username} />
-                    <Input placeholder={"Password"} {...password} type="password" />
-                    <Button text={"Sign up"}/>
-                </form>
+                <>
+                    <Helmet>
+                        <title>Sign Up | Sangstagram</title>
+                    </Helmet>
+                    <form onSubmit={onSubmit}>
+                        <Input placeholder={"First name"} {...firstName} />
+                        <Input placeholder={"Last name"} {...lastName} />
+                        <Input placeholder={"Email"} {...email} type="email" />
+                        <Input placeholder={"Username"} {...username} />
+                        <Input placeholder={"Password"} {...password} type="password" />
+                        <Button text={"Sign up"}/>
+                    </form>
+                </>
             )}
             {action === "confirm" && (
-                <form onSubmit={onSubmit}>
-                    <Input placeholder="Paste your secret" required {...secret} />
-                    <Button text={"Confirm"} />
-                </form>
+                <>
+                    <Helmet>
+                        <title>Confirm | Sangstagram</title>
+                    </Helmet>
+                    <form onSubmit={onSubmit}>
+                        <Input placeholder="Paste your secret" required {...secret} />
+                        <Button text={"Confirm"} />
+                    </form>
+                </>
             )}
         </Form>
         {action !== "confirm" && (

@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
-import { gql } from "apollo-boost";
 import Input from "./Input";
 import useInput from "../Hooks/useInput";
 import { Compass, HeartEmpty, Logo, User } from "./Icons";
 import { useQuery } from "react-apollo-hooks";
+import { ME } from "../SharedQueries";
 
 const Header = styled.header`
     width:100%;
@@ -18,6 +18,7 @@ const Header = styled.header`
     justify-content:center;
     align-items:center;
     padding:25px 0px;
+    z-index:2;
 `;
 
 const HeaderWrapper = styled.div`
@@ -60,14 +61,6 @@ const HeaderLink = styled(Link)`
     }
 `;
 
-const ME = gql`
-    {
-        me{
-            username
-        }
-    }
-`;
-
 export default withRouter(({history}) => {
     const search = useInput("");
     const { data } = useQuery(ME);
@@ -95,11 +88,13 @@ export default withRouter(({history}) => {
                     <HeaderLink to="/notifications">
                         <HeartEmpty/>
                     </HeaderLink>
-                    {!data ?
-                    <HeaderLink to="/#"><User/></HeaderLink> : 
-                    <HeaderLink to={data.me.username}>
-                        <User/>
-                    </HeaderLink>}
+                    {!data ? (
+                        <HeaderLink to="/#"><User/></HeaderLink>
+                    ) : (
+                        <HeaderLink to={data.me.username}>
+                            <User/>
+                        </HeaderLink>
+                    )}
                 </HeaderColumn>
             </HeaderWrapper>
         </Header>
