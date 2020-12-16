@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
 import PostPresenter from "./PostPresenter";
 import { ADD_COMMENT, TOGGLE_LIKE } from "./PostQueries";
-import { useMutation } from "react-apollo-hooks";
+import { useMutation, useQuery } from "react-apollo-hooks";
+// import { ME } from "../../SharedQueries";
+import { toast } from "react-toastify";
 
 const PostContainer = ({
     id, 
@@ -19,7 +21,10 @@ const PostContainer = ({
     const [isLikedS, setIsLiked] = useState(isLiked);
     const [likeCountS, setLikeCount] = useState(likeCount);
     const [currentItem, setCurrentItem] = useState(0);
+    const [selfComments, setSelfComments] = useState([]);
+    const [spinner, setSpinner] = useState(false);
     const comment = useInput("");
+    // const { data:meQuery } = useQuery(ME);
     const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
         variables:{ postId:id }
     });
@@ -47,6 +52,35 @@ const PostContainer = ({
             setLikeCount(likeCountS+1);
         }
     };
+    const onKeyPress = async (event) => {
+        const { which } = event;
+        if(which === 13){
+            event.preventDefault();
+            comment.setValue("");
+            try{ // solution for waiting api response(much safer)
+                setSpinner(true);
+                const {data:{addComment}} = await addCommentMutation();
+                setSpinner(false);
+                setSelfComments([...selfComments, addComment]);
+            }catch{
+                toast.error("Can't send comment");
+            }
+            
+            // solution for natural ui response(using fake data, applying to ui much faster and more natural, but not safe) 
+            // addCommentMutation();
+            // setSelfComments([
+            //     ...selfComments,
+            //     {
+            //         id:Math.floor(Math.random()*100),
+            //         text:comment.value,
+            //         user:{username:meQuery.me.username}
+            //     }
+            // ]);
+        }
+    };
+    const convertTime = (t) => {
+        return t.split("T")[0]
+    };
     return (
         <PostPresenter 
             user={user}
@@ -56,12 +90,15 @@ const PostContainer = ({
             caption={caption}
             isLiked={isLikedS}
             comments={comments}
-            createdAt={createdAt}
+            createdAt={convertTime(createdAt)}
             newComment={comment}
             setIsLiked={setIsLiked}
             setLikeCount={setLikeCount}
             currentItem={currentItem}
             toggleLike={toggleLike}
+            onKeyPress={onKeyPress}
+            selfComments={selfComments}
+            spinner={spinner}
         />
     );
 };

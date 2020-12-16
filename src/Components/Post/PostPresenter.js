@@ -1,9 +1,9 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import TextareaAutosize from "react-autosize-textarea";
 import Avatar from "../Avatar";
 import FatText from "../FatText";
-import { Comment, HeartEmpty, HeartFull } from "../Icons";
+import { Comment as CommentIcon, LoadingCircle, HeartEmpty, HeartFull } from "../Icons";
 
 const Post = styled.div`
     ${props => props.theme.whiteBox};
@@ -90,6 +90,32 @@ const Textarea = styled(TextareaAutosize)`
     }
 `;
 
+const Comments = styled.ul`
+    margin-top:10px;
+`;
+
+const Comment = styled.li`
+    margin-bottom:7px;
+    span{
+        margin-right:5px;
+    }
+`;
+
+const Animation = keyframes`
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+`;
+
+const CommentLoading = styled.span`
+    display:block;
+    text-align:center;
+    animation:${Animation} 2s linear infinite;
+`;
+
 
 export default ({
     user:{username, avatar}, 
@@ -100,7 +126,11 @@ export default ({
     createdAt,
     newComment,
     currentItem,
-    toggleLike
+    toggleLike,
+    onKeyPress,
+    comments,
+    selfComments,
+    spinner
 }) => (
     <Post>
         <Header>
@@ -122,12 +152,40 @@ export default ({
                     {isLiked ? <HeartFull/> : <HeartEmpty/>}
                 </Button>
                 <Button>
-                    <Comment/>
+                    <CommentIcon/>
                 </Button>
             </Buttons>
             <FatText text={likeCount === 1 ? "1 like": `${likeCount} likes`}/>
+            {comments && (
+                <Comments>
+                    {comments.map(comment => (
+                        <Comment key={comment.id}>
+                            <FatText text={comment.user.username} />
+                            {comment.text}
+                        </Comment>
+                    ))}
+                    {selfComments.map(comment => (
+                        <Comment key={comment.id}>
+                            <FatText text={comment.user.username} />
+                            {comment.text}
+                        </Comment>
+                    ))}
+                </Comments>
+            )}
             <Timestamp>{createdAt}</Timestamp>
-            <Textarea placeholder={"Add a comment..."} {...newComment}/>
+            {spinner &&
+            <CommentLoading>
+                <LoadingCircle/>
+            </CommentLoading>}
+            {!spinner &&
+            <form>
+                <Textarea
+                    placeholder={"Add a comment..."} 
+                    value={newComment.value}
+                    onChange={newComment.onChange}
+                    onKeyPress={onKeyPress}
+                />
+            </form>}
         </Meta>
     </Post>
 );
