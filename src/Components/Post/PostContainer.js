@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
 import PostPresenter from "./PostPresenter";
 import { ADD_COMMENT, TOGGLE_LIKE } from "./PostQueries";
-import { useMutation, useQuery } from "react-apollo-hooks";
+import { useMutation } from "react-apollo-hooks";
+// import { useQuery } from "react-apollo-hooks";
 // import { ME } from "../../SharedQueries";
 import { toast } from "react-toastify";
 
