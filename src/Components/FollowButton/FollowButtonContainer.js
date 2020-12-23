@@ -16,7 +16,7 @@ const FollowButtonContainer = ({isFollowing, id}) => {
             setIsFollowing(true);
             followMutation();
         }
-        // window.location.reload();
+        window.location.reload();
     };
     return (<FollowButtonPresenter onClick={onClick} isFollowing={isFollowingS}/>);
 };
