@@ -39,12 +39,12 @@ export default () => {
             if(email.value !== ""){
                 try{
                     const { data: { requestSecret } } = await requestSecretMutation();
-                    if(requestSecret === ""){ // change to using email confirm later !requestSecret
+                    if(!requestSecret){ // change to using email confirm later !requestSecret
                         toast.error("You don't have an account yet, create one");
                         setTimeout(() => setAction("signUp"), 3000);
                     }else{
-                        toast.success("your secret: " + requestSecret); // change to using email confirm later
-                        // toast.success("Check your inbox for your login secret");
+                        // toast.success("your secret: " + requestSecret); // change to using email confirm later
+                        toast.success("Check your inbox for your login secret");
                         setAction("confirm");
                     }
                 }catch{
