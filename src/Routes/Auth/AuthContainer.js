@@ -8,11 +8,11 @@ import { toast } from "react-toastify";
 export default () => {
     const [action, setAction] = useState("logIn");
     const username = useInput("");
-    const password = useInput("1234");
+    const password = useInput("");
     const firstName = useInput("");
     const lastName = useInput("");
     const secret = useInput("");
-    const email = useInput("wwdbsh@gmail.com");
+    const email = useInput("");
     const [requestSecretMutation] = useMutation(LOG_IN, {
         variables:{
             email:email.value
