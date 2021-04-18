@@ -2,7 +2,7 @@
 
 Frontend for Instagram clone with GraphQL + React and React Native
 
-- [Check Demo](https://sangstagram.netlify.app/)
+- Check [Demo](https://sangstagram.netlify.app/)
 
 - Go to [sangstagram-backend](https://github.com/wwdbsh/sangstagram-back) repository
 
